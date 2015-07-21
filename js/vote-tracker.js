@@ -1,54 +1,84 @@
 //This is our vote tracker!!!
 
-var image = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg'];
-
-var Photo = function() {
-  this.image = image;
+var Image = function(path) {
+  this.path = path;
+  this.votes = 0;
 }
 
-Photo.prototype.randomNumber = function() {
-  this.random = parseInt(Math.floor(Math.random() * (this.image.length)));
+var cat0 = new Image ('images/0.jpg');
+var cat1 = new Image ('images/1.jpg');
+var cat2 = new Image ('images/2.jpg');
+var cat3 = new Image ('images/3.jpg');
+var cat4 = new Image ('images/4.jpg');
+var cat5 = new Image ('images/5.jpg');
+var cat6 = new Image ('images/6.jpg');
+var cat7 = new Image ('images/7.jpg');
+var cat8 = new Image ('images/8.jpg');
+var cat9 = new Image ('images/9.jpg');
+var cat10 = new Image ('images/10.jpg');
+var cat11 = new Image ('images/11.jpg');
+var cat12 = new Image ('images/12.jpg');
+var cat13 = new Image ('images/13.jpg');
+
+var catArray = [cat0, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10, cat11, cat12, cat13];
+
+var Tracker = function() {
+  this.catArray = catArray;
+}
+
+//random number generator
+Tracker.prototype.randomNumber = function() {
+  this.random = parseInt(Math.floor(Math.random() * (this.catArray.length)));
   return this.random;
 }
 
-Photo.prototype.images = function() {
+Tracker.prototype.images = function() {
   this.leftImage, this.rightImage;
-  this.leftImage = this.image[this.randomNumber()];
-  this.rightImage = this.image[this.randomNumber()];
-  while (this.leftImage == this.rightImage) {
-    this.rightImage = this.image[this.randomNumber()];
+
+  this.leftImageRandom = this.randomNumber();
+  this.leftImage = this.catArray[this.leftImageRandom].path;
+
+  this.rightImageRandom = this.randomNumber();
+  this.rightImage = this.catArray[this.rightImageRandom].path;
+
+  while (this.leftImageRandom === this.rightImageRandom) {
+    this.rightImageRandom = this.randomNumber();
+    this.rightImage = this.catArray[this.rightImageRandom].path;
   }
-  return [this.leftImage, this.rightImage];
+
+  console.log(this.leftImage, this.rightImage, this.leftImageRandom, this.rightImageRandom);
+
+  return [this.leftImage, this.rightImage, this.leftImageRandom, this.rightImageRandom];
 }
 
-Photo.prototype.display = function() {
+//display both images
+Tracker.prototype.display = function() {
   var left = document.getElementById('left');
   var right = document.getElementById('right');
   var imgs = this.images();
   left.src = imgs[0];
   right.src = imgs[1];
+
+  this.leftVote = document.getElementById('left');
+  this.leftVote.addEventListener('click', function() {
+    catArray[imgs[2]].votes += 1;
+  }, false);
+
+  this.rightVote = document.getElementById('right');
+  this.rightVote.addEventListener('click', function() {
+    catArray[imgs[3]].votes += 1;
+  }, false);
 }
 
-var render = new Photo()
+var render = new Tracker()
 render.display();
 
+
+//more cats button
 var nextRound = document.getElementById('button');
 nextRound.addEventListener('click', function() {
   render.display();
 }, false);
-
-// var Voting = function() {
-//   this.votes = [];
-// }
-
-// Voting.prototype.vote = function () {
-//   this.leftVote = document.getElementById('left');
-//   this.leftVote.addEventListener('click', function() {
-//     this.votes.push
-//   }
-//     )
-// }
-
 
 
 
