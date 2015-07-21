@@ -1,17 +1,17 @@
 //This is our vote tracker!!!
 
-var image = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'];
+var image = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg', '11.jpg', '12.jpg', '13.jpg'];
 
-var Tracker = function() {
+var Photo = function() {
   this.image = image;
 }
 
-Tracker.prototype.randomNumber = function() {
+Photo.prototype.randomNumber = function() {
   this.random = parseInt(Math.floor(Math.random() * (this.image.length)));
   return this.random;
 }
 
-Tracker.prototype.images = function() {
+Photo.prototype.images = function() {
   this.leftImage, this.rightImage;
   this.leftImage = this.image[this.randomNumber()];
   this.rightImage = this.image[this.randomNumber()];
@@ -21,7 +21,7 @@ Tracker.prototype.images = function() {
   return [this.leftImage, this.rightImage];
 }
 
-Tracker.prototype.display = function() {
+Photo.prototype.display = function() {
   var left = document.getElementById('left');
   var right = document.getElementById('right');
   var imgs = this.images();
@@ -29,12 +29,12 @@ Tracker.prototype.display = function() {
   right.src = imgs[1];
 }
 
-var test = new Tracker()
-test.display();
+var render = new Photo()
+render.display();
 
 var nextRound = document.getElementById('button');
 nextRound.addEventListener('click', function() {
-  test.display();
+  render.display();
 }, false);
 
 // var Voting = function() {
