@@ -39,60 +39,51 @@ chooseCats = function() {
 };
 
 var imgIdx = chooseCats();
-var image = ["left", "right"]
+var imageCtl = ['left', 'right'];
 
 
-
-  leftImage = catArray[leftImageRandom].path;
-
-  this.rightImageRandom = randomNumber();
-  this.rightImage = this.catArray[this.rightImageRandom].path;
-
-
-// log this.leftImageRandom, this.rightImageRandom
-// return this.leftImageRandom, this.rightImageRandom]
-
-
-
-//display both images
+// store the cats and the web controls that display them
 var Tracker = function() {
   this.catArray = catArray;
-}
+  this.imageControls = imageCtl;
+};
 
 
-Tracker.prototype.display = function(imgs, imgIdx) {
-
-  for (var i = 0; i <imgs.lengt0; i++) {
-    var catPic = document.getElementById(imgs[i]);
-    catPic = catArray[imgIdx[i]];
+Tracker.prototype.display = function(imgIdx) {
+  this.imageIdx = imgIdx;
+  for (var i = 0; i < this.imageControls.length; i++) {
+    var catPic = document.getElementById(this.imageControls[i]);
+    console.log(this.imageControls[i], imgIdx[i], catPic, catArray[imgIdx[i]]);
+    catPic.src = catArray[imgIdx[i]].path;
   };
 
-}
+};
+
+Tracker.prototype.tallyVote = function(idx) {
+  catArray[imgIdx[idx]].votes += 1;
+};
 
 
+var render = new Tracker();
 
-
-var render = new Tracker()
-
-//more cats button
+//the page buttons
 var nextRound = document.getElementById('button');
 nextRound.addEventListener('click', function() {
-  imgs = render.images();
-  render.display();
+  render.display(chooseCats());
 }, false);
 
 var newRightVote = document.getElementById('right');
   newRightVote.addEventListener('click', function() {
-    catArray[imgs[3]].votes += 1;
+    render.tallyVote(1);
 }, false);
 
 var newLeftVote = document.getElementById('left');
   newLeftVote.addEventListener('click', function() {
-    catArray[imgs[2]].votes += 1;
+    render.tallyVote(0);
   }, false);
 
 
 
-render.display();
+render.display(chooseCats());
 
 // Tracker **could** have 'photos' property that is an array of the photo instances, and methods such as isVoting(), declareWinner(), voting(), declaring(),  updateTally(), resetResults(), castVote(), and so on.
