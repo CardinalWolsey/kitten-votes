@@ -5,6 +5,7 @@ var Image = function(path) {
   this.votes = 0;
 }
 
+//enstanchiate all cats
 var cat0 = new Image ('images/0.jpg');
 var cat1 = new Image ('images/1.jpg');
 var cat2 = new Image ('images/2.jpg');
@@ -20,20 +21,21 @@ var cat11 = new Image ('images/11.jpg');
 var cat12 = new Image ('images/12.jpg');
 var cat13 = new Image ('images/13.jpg');
 
+//declare array of cats
 var catArray = [cat0, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10, cat11, cat12, cat13];
 
 var Tracker = function() {
   this.catArray = catArray;
-}
+ }
 
 //random number generator
 Tracker.prototype.randomNumber = function() {
   this.random = parseInt(Math.floor(Math.random() * (this.catArray.length)));
-  return this.random;
-}
+   return this.random;
+ }
 
-Tracker.prototype.images = function() {
-  this.leftImage, this.rightImage;
+ Tracker.prototype.images = function() {
+   this.leftImage, this.rightImage;
 
   this.leftImageRandom = this.randomNumber();
   this.leftImage = this.catArray[this.leftImageRandom].path;
@@ -44,42 +46,39 @@ Tracker.prototype.images = function() {
   while (this.leftImageRandom === this.rightImageRandom) {
     this.rightImageRandom = this.randomNumber();
     this.rightImage = this.catArray[this.rightImageRandom].path;
-  }
+   }
 
   console.log(this.leftImage, this.rightImage, this.leftImageRandom, this.rightImageRandom);
 
   return [this.leftImage, this.rightImage, this.leftImageRandom, this.rightImageRandom];
-}
+ }
 
 //display both images
 Tracker.prototype.display = function() {
-  var left = document.getElementById('left');
-  var right = document.getElementById('right');
-  var imgs = this.images();
-  left.src = imgs[0];
-  right.src = imgs[1];
+   var left = document.getElementById('left');
+   var right = document.getElementById('right');
+   var imgs = this.images();
+   left.src = imgs[0];
+   right.src = imgs[1];
+   //store the indexing number in the dataset attribute of the HTML element
+   left.dataset.number = imgs[2];
+   right.dataset.number = imgs[3];
+ }
 
-  this.leftVote = document.getElementById('left');
-  this.leftVote.addEventListener('click', function() {
-    catArray[imgs[2]].votes += 1;
-  }, false);
+//left click event listner and incrementer
+$('#left').on('click', function() {
+  catArray[left.dataset.number].votes += 1;
+});
 
-  this.rightVote = document.getElementById('right');
-  this.rightVote.addEventListener('click', function() {
-    catArray[imgs[3]].votes += 1;
-  }, false);
-}
+//right click event listner and incrementer
+$('#right').on('click', function() {
+  catArray[right.dataset.number].votes += 1;
+});
 
 var render = new Tracker()
 render.display();
 
-
 //more cats button
-var nextRound = document.getElementById('button');
-nextRound.addEventListener('click', function() {
+$('#button').on('click', function() {
   render.display();
-}, false);
-
-
-
-// Tracker **could** have 'photos' property that is an array of the photo instances, and methods such as isVoting(), declareWinner(), voting(), declaring(),  updateTally(), resetResults(), castVote(), and so on.
+});
