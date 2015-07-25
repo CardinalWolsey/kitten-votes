@@ -1,29 +1,62 @@
 //This is our vote tracker!!!
 
+//ajax call
+function getImgurAlbum() {
+  $.ajax({
+    url: 'https://api.imgur.com/3/album/DDoWy.json',
+    method: 'GET',
+    headers :{
+      'Authorization': 'Client-ID 8ef9bb425e4333d'
+    }
+  })
+  .done(function(res) {
+    //console.log(res.data.images);
+    imgurArray = res.data.images;
+    //make cat images
+    var catImageArray = make_cat_images(imgurArray);
+    render_page(catImageArray);
+
+    console.log(imgurArray);
+    console.log(catImageArray);
+  })
+}
+var imgurArray;
+console.log(imgurArray);
+getImgurAlbum();
+
+//enstanciate image
 var Image = function(path, label) {
   this.path = path;
   this.label = label;
   this.votes = 0;
 }
 
-//enstanchiate all cats
-var cat0 = new Image ('images/0.jpg', 'cat0');
-var cat1 = new Image ('images/1.jpg', 'cat1');
-var cat2 = new Image ('images/2.jpg', 'cat2');
-var cat3 = new Image ('images/3.jpg', 'cat3');
-var cat4 = new Image ('images/4.jpg', 'cat4');
-var cat5 = new Image ('images/5.jpg', 'cat5');
-var cat6 = new Image ('images/6.jpg', 'cat6');
-var cat7 = new Image ('images/7.jpg', 'cat7');
-var cat8 = new Image ('images/8.jpg', 'cat8');
-var cat9 = new Image ('images/9.jpg', 'cat9');
-var cat10 = new Image ('images/10.jpg', 'cat10');
-var cat11 = new Image ('images/11.jpg', 'cat11');
-var cat12 = new Image ('images/12.jpg', 'cat12');
-var cat13 = new Image ('images/13.jpg', 'cat13');
 
-//declare array of cats
-var catArray = [cat0, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10, cat11, cat12, cat13];
+function make_cat_images( arr ) {
+  //enstanchiate all cats
+  //could do a for loop to enstanciate all the cat images, but this works for now.
+  var cat0 = new Image (arr[0].link, 'cat0');
+  var cat1 = new Image (arr[1].link, 'cat1');
+  var cat2 = new Image (arr[2].link, 'cat2');
+  var cat3 = new Image (arr[3].link, 'cat3');
+  var cat4 = new Image (arr[4].link, 'cat4');
+  var cat5 = new Image (arr[5].link, 'cat5');
+  var cat6 = new Image (arr[6].link, 'cat6');
+  var cat7 = new Image (arr[7].link, 'cat7');
+  var cat8 = new Image (arr[8].link, 'cat8');
+  var cat9 = new Image (arr[9].link, 'cat9');
+  var cat10 = new Image (arr[10].link, 'cat10');
+  var cat11 = new Image (arr[11].link, 'cat11');
+  var cat12 = new Image (arr[12].link, 'cat12');
+  var cat13 = new Image (arr[13].link, 'cat13');
+
+  //declare array of cats
+  return [cat0, cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10, cat11, cat12, cat13];
+}
+
+function render_page( catArray ) {
+
+// localStorage.setItem("voteTracking", JSON.stringify(catArray));
 
 //local storage check
 if (typeof(Storage) !== "undefined") {
@@ -76,6 +109,10 @@ Tracker.prototype.display = function() {
 //left click event listner and incrementer
 $('#left').on('click', function() {
 
+if (localStorage.getItem("voteTracking") === null) {
+  localStorage.setItem("voteTracking", JSON.stringify(catArray));
+}
+
 //****parse local storage string into an array
 var catArrayString = localStorage.getItem("voteTracking");
 var catArray = JSON.parse(catArrayString);
@@ -125,6 +162,10 @@ localStorage.setItem("voteTracking", JSON.stringify(catArray));
 
 //right click event listner and incrementer
 $('#right').on('click', function() {
+
+if (localStorage.getItem("voteTracking") === null) {
+  localStorage.setItem("voteTracking", JSON.stringify(catArray));
+}
 
 //****parse local storage string into an array
 var catArrayString2 = localStorage.getItem("voteTracking");
@@ -180,10 +221,4 @@ render.display();
 $('#button').on('click', function() {
   render.display();
 });
-
-// local storage code
-// if(typeof(Storage) !== "undefined") {
-//     // Code for localStorage/sessionStorage.
-// } else {
-//     // Sorry! No Web Storage support..
-// }
+}
