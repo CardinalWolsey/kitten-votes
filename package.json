@@ -1,0 +1,23 @@
+{
+  "name": "vote-tracker",
+  "version": "1.0.0",
+  "description": "A vote tracker to track cute kitten votes",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CardinalWolsey/kitten-votes.git"
+  },
+  "author": "Spencer Caldwell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CardinalWolsey/kitten-votes/issues"
+  },
+  "homepage": "https://github.com/CardinalWolsey/kitten-votes#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
+
